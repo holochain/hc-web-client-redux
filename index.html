@@ -4,11 +4,33 @@
   <title>holoclient test</title>
 </head>
 <body>
-  <script type="text/javascript" src="demo.js"></script>
   <form onsubmit="doSend(document.querySelector('#message').value)">
     <input type="text" id="message"/>
     <input type="submit" value="Send" />
   </form>
   <div id="output"></div>
+
+  <script type="text/javascript" src="lib/holoclient.js"></script>
+
+  <script type="text/javascript">
+    const url =  'ws://192.168.1.100:8888/'
+    const dna =  'k+XyBjRtywLfXVCRkPfHXMOFbJ9EEmiq4DdMU2AYlGo='
+    const cap =  'blog'
+    const zome = 'main'
+    const fn =   'create_post'
+
+    doSend = () => console.error("wait for websocket connection")
+
+    connect(url).then(({call}) => {
+      window.doSend = msg => {
+        event.preventDefault()
+        call(dna, cap, zome, fn)({
+          content: msg,
+          in_reply_to: 'the moon'
+        })
+      }
+    })
+
+  </script>
 </body>
 </html>
