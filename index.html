@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>holoclient test</title>
+  <meta charset="UTF-8"/>
 </head>
 <body>
   <form id="form">
@@ -14,13 +15,14 @@
 
   <script type="text/javascript">
     // const url =  'wss://echo.websocket.org'
-    const url =  'ws://192.168.1.100:8888/'
+    // const url =  'ws://192.168.1.100:8888/'
+    const url =  'ws://localhost:8888/'
     const dna =  'k+XyBjRtywLfXVCRkPfHXMOFbJ9EEmiq4DdMU2AYlGo='
     const cap =  'blog'
     const zome = 'main'
     const fn =   'create_post'
 
-    holoclient.connect(url).then(({call}) => {
+    window.holoclient.connect(url).then(({call}) => {
       document.getElementById('form').addEventListener('submit', e => {
         e.preventDefault()
 
@@ -28,7 +30,7 @@
         call(dna, cap, zome, fn)({
           content,
           in_reply_to: 'the moon'
-        }).then(response => console.log(response))
+        }).then(response => console.log('WS RESPONSE', response))
       })
     })
 
