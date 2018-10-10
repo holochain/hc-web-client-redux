@@ -2,7 +2,7 @@
   "name": "holoclient",
   "version": "0.0.1",
   "description": "Holochain websocket interface",
-  "main": "lib/index.js",
+  "main": "src/index.js",
   "author": "Michael Dougherty <michael.dougherty@holo.host>",
   "license": "MIT",
   "scripts": {
@@ -10,10 +10,10 @@
     "build": "npm run clean && scripts/build.sh",
     "watch": "scripts/watch.sh"
   },
-  "devDependencies": {
-    "typescript": "^3.1.2"
-  },
   "dependencies": {
     "rpc-websockets": "^4.3.3"
+  },
+  "devDependencies": {
+    "typescript": "^3.1.2"
   }
 }
