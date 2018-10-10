@@ -4,7 +4,7 @@
   <title>holoclient test</title>
 </head>
 <body>
-  <form onsubmit="doSend(document.querySelector('#message').value)">
+  <form id="form">
     <input type="text" id="message"/>
     <input type="submit" value="Send" />
   </form>
@@ -13,22 +13,23 @@
   <script type="text/javascript" src="lib/holoclient.js"></script>
 
   <script type="text/javascript">
+    // const url =  'wss://echo.websocket.org'
     const url =  'ws://192.168.1.100:8888/'
     const dna =  'k+XyBjRtywLfXVCRkPfHXMOFbJ9EEmiq4DdMU2AYlGo='
     const cap =  'blog'
     const zome = 'main'
     const fn =   'create_post'
 
-    doSend = () => console.error("wait for websocket connection")
+    holoclient.connect(url).then(({call}) => {
+      document.getElementById('form').addEventListener('submit', e => {
+        e.preventDefault()
 
-    connect(url).then(({call}) => {
-      window.doSend = msg => {
-        event.preventDefault()
+        const content = document.querySelector('#message').value
         call(dna, cap, zome, fn)({
-          content: msg,
+          content,
           in_reply_to: 'the moon'
-        })
-      }
+        }).then(response => console.log(response))
+      })
     })
 
   </script>
