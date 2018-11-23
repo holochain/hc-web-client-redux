@@ -9,6 +9,8 @@
     <input type="text" id="message"/>
     <input type="submit" value="Send" />
   </form>
+  <button id="info">Get info</button>
+  <button id="close">Close WS connection</button>
   <div id="output"></div>
 
   <script type="text/javascript" src="lib/holoclient.js"></script>
@@ -16,21 +18,29 @@
   <script type="text/javascript">
     // const url =  'wss://echo.websocket.org'
     // const url =  'ws://192.168.1.100:8888/'
-    const url =  'ws://localhost:8888/'
-    const dna =  'k+XyBjRtywLfXVCRkPfHXMOFbJ9EEmiq4DdMU2AYlGo='
+    const url =  'ws://localhost:3000/'
+    const agent = 'hoster'
+    const dna =  'QmRDZMqrCRF7on2mk31DYqu9KEWR2NrDctBzoUcNU1n5rK'
+    const instance = `app spec instance`
     const cap =  'blog'
     const zome = 'main'
     const fn =   'create_post'
 
-    window.holoclient.connect(url).then(({call}) => {
+    window.holoclient.connect(url).then(({call, close}) => {
       document.getElementById('form').addEventListener('submit', e => {
         e.preventDefault()
 
         const content = document.querySelector('#message').value
-        call(dna, cap, zome, fn)({
+        call(instance, cap, zome, fn)({
           content,
           in_reply_to: 'the moon'
         }).then(response => console.log('WS RESPONSE', response))
+      })
+      document.getElementById('info').addEventListener('click', e => {
+        call('info/instances')().then(data => console.log(data))
+      })
+      document.getElementById('close').addEventListener('click', e => {
+        close()
       })
     })
 
