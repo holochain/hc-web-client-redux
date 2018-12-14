@@ -1,6 +1,6 @@
-rm -rf lib/*
+rm -rf dist/*
 tsc -w & sleep 2 && \
 parcel watch \
-  -d lib \
+  -d dist \
   -o holoclient.js \
-  lib/out/index.js
+  dist/out/index.js

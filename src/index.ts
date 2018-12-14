@@ -1,7 +1,13 @@
 import {Client} from 'rpc-websockets'
 type Hash = string
 
-export const connect = (url) => new Promise((fulfill, reject) => {
+type hcWebClientConnect = {
+  call: (callStr: string) => (params: any) => Promise<string>,
+  close: () => Promise<any>,
+  ws: any
+}
+
+export const connect = (url: string) => new Promise<hcWebClientConnect>((fulfill, reject) => {
   const ws = new Client(url)
   ws.on('open', () => {
     const call = (...segments) => (params) => {
@@ -13,5 +19,5 @@ export const connect = (url) => new Promise((fulfill, reject) => {
   })
 })
 
-const win = (window as any)
-win.holoclient = win.holoclient || {connect}
+// const win = (window as any)
+// win.holoclient = win.holoclient || {connect}
