@@ -7,7 +7,7 @@ type HcWebClientConnect = {
   ws: any
 }
 
-export const connect = (url: string) => new Promise<hcWebClientConnect>((fulfill, reject) => {
+export const connect = (url: string) => new Promise<HcWebClientConnect>((fulfill, reject) => {
   const ws = new Client(url)
   ws.on('open', () => {
     const call = (...segments) => (params) => {
