@@ -1,7 +1,7 @@
 import {Client} from 'rpc-websockets'
 type Hash = string
 
-type hcWebClientConnect = {
+type HcWebClientConnect = {
   call: (callStr: string) => (params: any) => Promise<string>,
   close: () => Promise<any>,
   ws: any
