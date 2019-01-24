@@ -1,20 +1,28 @@
 {
-  "name": "holoclient",
+  "name": "@holochain/hc-web-client",
   "version": "0.0.1",
-  "description": "Holochain websocket interface",
-  "main": "src/index.js",
+  "description": "Holochain container connection helper for web based UIs",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "author": "Michael Dougherty <michael.dougherty@holo.host>",
-  "license": "MIT",
+  "license": "AGPL-3.0",
   "scripts": {
-    "clean": "rm -fr lib",
+    "clean": "rm -fr dist",
     "build": "npm run clean && scripts/build.sh",
-    "watch": "scripts/watch.sh"
+    "watch": "scripts/watch.sh",
+    "prepublish": "npm run build",
+    "test": "node ./test"
   },
   "dependencies": {
     "rpc-websockets": "^4.3.3"
   },
   "devDependencies": {
     "parcel": "^1.10.2",
+    "tape": "^4.9.2",
+    "tape-promise": "^4.0.0",
     "typescript": "^3.1.2"
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }

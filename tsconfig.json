@@ -2,15 +2,17 @@
   "compilerOptions": {
     "baseUrl": ".",
     "rootDir": "src",
-    "outDir": "lib/out",
-    "module": "esnext",
+    "outDir": "dist",
 
-    "target": "es5",
+    "target": "es2017",
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "declaration": true,
+    "inlineSourceMap": true,
+    "esModuleInterop": true,
+
     "downlevelIteration": true,
     "lib": ["es6", "dom"],
-    "sourceMap": true,
-    "allowJs": true,
-    "moduleResolution": "node",
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": false,
@@ -26,6 +28,7 @@
   "exclude": [
     "node_modules",
     "lib",
+    "dist",
     "src/__tests__"
   ]
 }

@@ -1,7 +1,7 @@
+rm -rf dist/*
 rm -rf lib/*
 tsc && parcel build \
   -d lib \
-  -o holoclient.js \
+  -o index.js \
   --no-minify \
-  lib/out/index.js \
-&& rm -rf lib/out
+  dist/index.js
