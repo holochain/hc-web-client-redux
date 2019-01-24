@@ -1,12 +1,27 @@
 # hc-web-client
 
-Thin wrapper around `rpc-websockets` to enable calling zome functions in Holochain apps installed in a container.
+Thin wrapper around `rpc-websockets` to enable calling zome functions in Holochain apps installed in a container. This module aims to fill a similar role to web3.js and allow for connecting to a holochain instance in a variety of scenarios. Currently two are implemented:
 
-## Usage
+### Scenario 1
 
-The holochain container exposes methods for each function of each zome of each running instance. It also exposes a method, `info/instances` to get information about all instances. Your app should typically use this first to get instance info, so that your UI can only be concerned with DNA hashes (and perhaps agent IDs) rather than instance IDs.
+A full URL including port to the holochain interface is known and will never change. This is ok for development or very specific applications. Usage:
 
-See [index.html](index.html) for example usage. You can use i.e. `python3 -m http.server`.
+```javascript
+connect("ws:localhost:3000").then(({call, close}) => {
+    call('app/zome/fn')(params)
+})
+```
+
+### Scenario 2
+
+UI is being served by the holochain container. This is the most commonly anticipated usage. Interface port is unknown but valid interface is defined in the container config. In this case no url parameter is required and it will automatically call the contaier to retrieve the correct port to make calls on. Usage:
+
+```javascript
+connect().then(({call, close}) => {
+    call('app/zome/fn')(params)
+})
+```
+
 
 ## Development
 
