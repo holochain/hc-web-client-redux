@@ -1,5 +1,4 @@
 import {Client} from 'rpc-websockets'
-type Hash = string
 
 // export a function which consumes a URL of a running Holochain Websocket based JSON-RPC service
 // and returns a Promise which fulfills to some utility functions for interacting with Holochain
