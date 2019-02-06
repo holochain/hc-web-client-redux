@@ -13,7 +13,7 @@ export const connect = (url) => new Promise((fulfill, reject) => {
 
     // the inner function should be called with a JSON object, which will be the RPC "params"
     
-    // in practice, using this looks like `call("instance", "zomename", "function_name")({ key: "value" })`
+    // in practice, using this looks like `call("instance", "zome_name", "function_name")({ key: "value" })`
     
     // the whole thing returns a Promise, which will resolve to the result, or an error
     const call = (...method_segments) => (params) => {
@@ -29,6 +29,6 @@ export const connect = (url) => new Promise((fulfill, reject) => {
   })
 })
 
-// in case for use in the browser, expose the `connect` function under the holochain_client global variable
+// in case for use in the browser, expose the `connect` function under the holochainClient global variable
 const win = (window as any)
-win.holochain_client = win.holochain_client || {connect}
+win.holochainClient = win.holochainClient || {connect}

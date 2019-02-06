@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>holochain_client test</title>
+  <title>holochainClient test</title>
   <meta charset="UTF-8"/>
 </head>
 <body>
@@ -13,25 +13,25 @@
   <button id="close">Close WS connection</button>
   <div id="output"></div>
 
-  <script type="text/javascript" src="lib/holochain_client.js"></script>
+  <script type="text/javascript" src="lib/holochainClient.js"></script>
 
   <script type="text/javascript">
-    const url =  'ws://localhost:3000/'
+    const holochainUrl =  'ws://localhost:3000/'
 
-    window.holochain_client.connect(url).then(({call, close}) => {
+    window.holochainClient.connect(holochainUrl).then(({call, close}) => {
       document.getElementById('form').addEventListener('submit', e => {
         e.preventDefault()
 
         // First, get instance info...
         call('info/instances')().then(info => {
           const instance = getInstance(info, 'the_dna_hash', 'the_agent_hash')
-          const zome_name = 'blog'
-          const function_name = 'create_post'
+          const zomeName = 'blog'
+          const functionName = 'create_post'
           const params = {
             content: document.querySelector('#message').value,
             in_reply_to: 'in reply to'
           }
-          const createPost = call(instance, zome_name, function_name)
+          const createPost = call(instance, zomeName, functionName)
           createPost(params)
         })
       })
