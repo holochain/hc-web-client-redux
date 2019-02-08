@@ -2,5 +2,5 @@ rm -rf lib/*
 tsc -w & sleep 2 && \
 parcel watch \
   -d lib \
-  -o holoclient.js \
+  -o holochainClient.js \
   lib/out/index.js

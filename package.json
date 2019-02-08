@@ -1,5 +1,5 @@
 {
-  "name": "holoclient",
+  "name": "holochain_client",
   "version": "0.0.1",
   "description": "Holochain websocket interface",
   "main": "src/index.js",
