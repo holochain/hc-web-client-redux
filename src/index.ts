@@ -8,7 +8,7 @@ type Close = () => Promise<any>
 export const connect = (paramUrl?: string) => new Promise<{call: Call, close: Close, ws: any}>(async (fulfill, reject) => {
   const url = paramUrl || await getUrlFromContainer().catch(() => reject(
     'Could not auto-detect DNA interface from conductor. \
-Ensure the web UI is hosted by a holochain conductor or manually specify url as parameter to connect'))
+Ensure the web UI is hosted by a Holochain Conductor or manually specify url as parameter to connect'))
 
   const ws = new Client(url)
   ws.on('open', () => {
