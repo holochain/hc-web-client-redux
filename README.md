@@ -63,7 +63,3 @@ This will automatically build, lint, commit and push a new git tag before publis
 ## License
 
 This project is licensed under the AGPL-3.0 License
-
-
-
-

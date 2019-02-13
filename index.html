@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>holoclient test</title>
+  <title>holochainClient test</title>
   <meta charset="UTF-8"/>
 </head>
 <body>
@@ -16,24 +16,23 @@
   <script type="text/javascript" src="dist/index.js"></script>
 
   <script type="text/javascript">
-    const url =  'ws://localhost:3000/'
+    const holochainUrl =  'ws://localhost:3000/'
 
-    window.holoclient.connect(url).then(({call, close}) => {
+    window.holochainClient.connect(holochainUrl).then(({call, close}) => {
       document.getElementById('form').addEventListener('submit', e => {
         e.preventDefault()
 
         // First, get instance info...
         call('info/instances')().then(info => {
-          // Now that we have instance info, we can make zome calls by DNA hash (and agent ID)
-          // as specified in our container config
           const instance = getInstance(info, 'the_dna_hash', 'the_agent_hash')
-          const content = document.querySelector('#message').value
-
-          // Make another zome call now
-          call(instance, 'blog', 'main', 'create_post')({
-            content,
+          const zomeName = 'blog'
+          const functionName = 'create_post'
+          const params = {
+            content: document.querySelector('#message').value,
             in_reply_to: 'in reply to'
-          })
+          }
+          const createPost = call(instance, zomeName, functionName)
+          createPost(params)
         })
       })
 
