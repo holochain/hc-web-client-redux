@@ -8,7 +8,7 @@
     "moduleResolution": "node",
     "module": "commonjs",
     "declaration": true,
-    "inlineSourceMap": true,
+    "sourceMap": false,
     "esModuleInterop": true,
 
     "downlevelIteration": true,

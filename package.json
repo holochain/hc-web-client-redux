@@ -8,7 +8,7 @@
   "license": "AGPL-3.0",
   "scripts": {
     "build": "tsc",
-    "build:web": "npm run build && parcel build -o index.js --no-minify lib/index.js",
+    "build:web": "npm run build && parcel build -o index.js --no-minify --no-source-maps lib/index.js",
     "clean": "rm -rf ./lib && rm -rf ./dist",
     "lint": "tslint -p tsconfig.json",
     "prepublishOnly": "npm test && npm run lint",

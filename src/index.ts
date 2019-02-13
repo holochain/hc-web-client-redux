@@ -12,3 +12,8 @@ export const connect = (url?: string) => new Promise((fulfill, reject) => {
     fulfill({ call, close, ws })
   })
 })
+
+if (typeof(window) !== 'undefined') {
+  const win = (window as any)
+  win.holoclient = win.holoclient || { connect }
+}
