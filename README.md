@@ -31,7 +31,7 @@ connect("ws:localhost:3000").then(({call, close}) => {
 
 ### Scenario 2
 
-UI is being served by the holochain conductorco. This is the most commonly anticipated usage. Interface port is unknown but valid interface is defined in the conductor config. In this case no url parameter is required and it will automatically call the conductor to retrieve the correct port to make calls on. Usage:
+UI is being served by the holochain conductor. This is the most commonly anticipated usage. Interface port is unknown but valid interface is defined in the conductor config. In this case no url parameter is required and it will automatically call the conductor to retrieve the correct port to make calls on. Usage:
 
 ```javascript
 connect().then(({call, close}) => {
