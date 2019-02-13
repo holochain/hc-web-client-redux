@@ -29,4 +29,10 @@ describe('hc-web-client', () => {
     expect(Client).toBeCalledWith(`ws://localhost:${testPort}`)
   })
 
+  it('Can can gracefully handle errors when trying to connect', async () => {
+    // @ts-ignore
+    fetch.mockResponseOnce(JSON.stringify({ }))
+    expect(connect()).rejects.toEqual(`Could not auto-detect DNA interface from conductor. Ensure the web UI is hosted by a holochain conductor or manually specify url as parameter to connect`)
+  })
+
 })
