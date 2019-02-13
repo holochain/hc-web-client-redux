@@ -22,7 +22,7 @@ export const connect = (paramUrl?: string) => new Promise<{call: Call, close: Cl
 function getUrlFromContainer (): Promise<string> {
   return fetch(CONDUCTOR_CONFIG)
     .then(data => data.json())
-    .then(json => json.driver.Websocket.port)
+    .then(json => json.dna_interface.driver.port)
     .then(port => `ws://localhost:${port}`)
 }
 
