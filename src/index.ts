@@ -1,4 +1,4 @@
-import {Client} from 'rpc-websockets'
+import { Client } from 'rpc-websockets'
 type Hash = string
 
 export const connect = (url?: string) => new Promise((fulfill, reject) => {
@@ -9,9 +9,6 @@ export const connect = (url?: string) => new Promise((fulfill, reject) => {
       return ws.call(method, params)
     }
     const close = () => ws.close()
-    fulfill({call, close, ws})
+    fulfill({ call, close, ws })
   })
 })
-
-// const win = (window as any)
-// win.holoclient = win.holoclient || {connect}

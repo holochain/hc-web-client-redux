@@ -2,27 +2,32 @@
   "name": "@holochain/hc-web-client",
   "version": "0.0.1",
   "description": "Holochain container connection helper for web based UIs",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "author": "Michael Dougherty <michael.dougherty@holo.host>",
   "license": "AGPL-3.0",
   "scripts": {
-    "clean": "rm -fr dist",
-    "build": "npm run clean && scripts/build.sh",
-    "watch": "scripts/watch.sh",
-    "prepublish": "npm run build",
-    "test": "node ./test"
+    "build": "tsc",
+    "build:web": "npm run build && parcel build -o index.js --no-minify lib/index.js",
+    "clean": "rm -rf ./lib && rm -rf ./dist",
+    "lint": "tslint -p tsconfig.json",
+    "prepublishOnly": "npm test && npm run lint",
+    "prepare": "npm run build",
+    "test": "jest --config jestconfig.json"
   },
   "dependencies": {
     "rpc-websockets": "^4.3.3"
   },
   "devDependencies": {
+    "@types/jest": "^24.0.3",
+    "typescript": "^3.1.2",
+    "jest": "^24.1.0",
+    "ts-jest": "^23.10.5",
     "parcel": "^1.10.2",
-    "tape": "^4.9.2",
-    "tape-promise": "^4.0.0",
-    "typescript": "^3.1.2"
+    "tslint": "^5.12.1",
+    "tslint-config-standard": "^8.0.1"
   },
   "files": [
-    "dist/**/*"
+    "lib/**/*"
   ]
 }
