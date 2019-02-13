@@ -1,7 +1,9 @@
 import { Client } from 'rpc-websockets'
-type Hash = string
 
-export const connect = (url?: string) => new Promise((fulfill, reject) => {
+type Call = (...segments: Array<string>) => (params: any) => Promise<any>
+type Close = () => Promise<any>
+
+export const connect = (url?: string) => new Promise<{call: Call, close: Close, ws: any}>((fulfill, reject) => {
   const ws = new Client(url)
   ws.on('open', () => {
     const call = (...segments) => (params) => {

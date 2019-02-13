@@ -13,14 +13,6 @@
 
     "downlevelIteration": true,
     "lib": ["es6", "dom"],
-    "experimentalDecorators": true,
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitReturns": false,
-    "noImplicitThis": true,
-    "noImplicitAny": false,
-    "strictNullChecks": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": false
   },
   "include": [
     "src/**/*"
