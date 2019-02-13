@@ -1,19 +1,32 @@
 import { connect } from './index'
 
 import { Client } from 'rpc-websockets'
-jest.mock('rpc-websockets')
+jest.mock('rpc-websockets', () => {
+  return {
+    Client: jest.fn(() => {
+      return {
+        on: jest.fn((on, callback) => {
+          return callback()
+        })
+      }
+    })
+  }
+})
 
 describe('hc-web-client', () => {
 
-  it('Can connect by passing URL', () => {
+  it('Can connect by passing URL', async () => {
     const testUrl = 'ws://localhost:3000'
-    connect(testUrl)
+    await connect(testUrl)
     expect(Client).toBeCalledWith(testUrl)
   })
 
-  it('Can connect by passing no params and retriving port from endpoint', () => {
-    connect()
-    // expect(Client).toBeCalledWith(testUrl)
+  it('Can connect by passing no params and retriving port from endpoint', async () => {
+    const testPort = 1234
+    // @ts-ignore
+    fetch.mockResponseOnce(JSON.stringify({ driver: { Websocket: { port: testPort } } }))
+    await connect()
+    expect(Client).toBeCalledWith(`ws://localhost:${testPort}`)
   })
 
 })
