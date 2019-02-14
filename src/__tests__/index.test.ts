@@ -1,6 +1,6 @@
-import { connect } from './index'
-
+import { connect } from '../index'
 import { Client } from 'rpc-websockets'
+
 jest.mock('rpc-websockets', () => {
   return {
     Client: jest.fn(() => {
