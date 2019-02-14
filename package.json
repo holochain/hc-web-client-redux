@@ -1,20 +1,42 @@
 {
-  "name": "holochain_client",
+  "name": "@holochain/hc-web-client",
   "version": "0.0.1",
-  "description": "Holochain websocket interface",
-  "main": "src/index.js",
-  "author": "Michael Dougherty <michael.dougherty@holo.host>",
-  "license": "MIT",
+  "description": "Holochain container connection helper for web based UIs",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "license": "AGPL-3.0",
   "scripts": {
-    "clean": "rm -fr lib",
-    "build": "npm run clean && scripts/build.sh",
-    "watch": "scripts/watch.sh"
+    "build": "tsc",
+    "build:web": "npm run build && parcel build -o hc-web-client-$npm_package_version.browser.min.js lib/index.js",
+    "clean": "rm -rf ./lib && rm -rf ./dist",
+    "lint": "tslint -p tsconfig.json",
+    "prepublishOnly": "npm test && npm run lint",
+    "prepare": "npm run build",
+    "preversion": "npm run lint",
+    "version": "git add -A src",
+    "postversion": "git push && git push --tags",
+    "test": "jest --config jestconfig.json"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "rpc-websockets": "^4.3.3"
   },
   "devDependencies": {
+    "@types/jest": "^24.0.3",
+    "jest": "^24.1.0",
+    "jest-fetch-mock": "^2.1.0",
     "parcel": "^1.10.2",
+    "ts-jest": "^23.10.5",
+    "tslint": "^5.12.1",
+    "tslint-config-standard": "^8.0.1",
     "typescript": "^3.1.2"
-  }
+  },
+  "files": [
+    "lib/**/*"
+  ],
+  "contributors": [
+    "Michael Dougherty <michael.dougherty@holo.host>",
+    "Willem Olding <willem.olding@holo.host>",
+    "Connor Turland <connnor.turland@holo.host>"
+  ]
 }
