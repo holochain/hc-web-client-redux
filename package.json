@@ -8,17 +8,18 @@
   "license": "AGPL-3.0",
   "scripts": {
     "build": "tsc",
-    "build:web": "npm run build && parcel build -o index.js --no-minify --no-source-maps lib/index.js",
+    "build:web": "npm run build && parcel build -o hc-web-client-$npm_package_version.browser.min.js lib/index.js",
     "clean": "rm -rf ./lib && rm -rf ./dist",
     "lint": "tslint -p tsconfig.json",
     "prepublishOnly": "npm test && npm run lint",
     "prepare": "npm run build",
-    "preversion" : "npm run lint",
-    "version" : "git add -A src",
-    "postversion" : "git push && git push --tags",
+    "preversion": "npm run lint",
+    "version": "git add -A src",
+    "postversion": "git push && git push --tags",
     "test": "jest --config jestconfig.json"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "rpc-websockets": "^4.3.3"
   },
   "devDependencies": {

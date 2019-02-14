@@ -12,10 +12,11 @@ const { connect } = require('@holochain/hc-web-client')
 import { connect } from '@holochain/hc-web-client'
 ```
 
-For the pure HTML case the index.js file in the `dist/` folder must be moved to your project directory and imported using
+For the pure HTML case the hc-web-client.js file in the `dist/` folder must be moved to your project directory and imported using
 ```html
-<script type="text/javascript" src="path/to/holoclient.js"></script>
+<script type="text/javascript" src="path/to/hc-web-client-0.0.1.browser.min.js"></script>
 ```
+This will add a holochainClient field to the window object.
 
 ## Usage
 
@@ -39,6 +40,18 @@ connect().then(({call, close}) => {
 })
 ```
 
+### Conductor RPC calls
+
+The holochain conductor exposes methods for each function of each zome of each running instance. 
+
+If the web client is connected to an admin interface there are also RPC methods to manage DNAs, UIs, interfaces and bridges. These can be called from the web client for exampe as:
+```
+connect().then(({call, close}) => {
+    call('admin/dna/install_from_file')(params)
+})
+```
+
+[View the Holochain JSON-RPC API documentation](https://developer.holochain.org/guide/latest/conductor_json_rpc_api.html).
 
 ## Building
 
