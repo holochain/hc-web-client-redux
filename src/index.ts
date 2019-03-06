@@ -1,5 +1,4 @@
 import { Client } from 'rpc-websockets'
-import 'babel-polyfill'
 
 const CONDUCTOR_CONFIG = '/_dna_connections.json'
 
@@ -28,9 +27,4 @@ function getUrlFromContainer (): Promise<string> {
     .then(data => data.json())
     .then(json => json.dna_interface.driver.port)
     .then(port => `ws://localhost:${port}`)
-}
-
-if (typeof(window) !== 'undefined') {
-  const win = (window as any)
-  win.holochainClient = win.holochainClient || { connect }
 }
