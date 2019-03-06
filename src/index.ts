@@ -28,3 +28,5 @@ function getUrlFromContainer (): Promise<string> {
     .then(json => json.dna_interface.driver.port)
     .then(port => `ws://localhost:${port}`)
 }
+
+const holochainclient = { connect }

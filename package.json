@@ -7,7 +7,7 @@
   "license": "AGPL-3.0",
   "scripts": {
     "build": "tsc",
-    "build:web": "npm run build && parcel build -o hc-web-client-$npm_package_version.browser.min.js lib/index.js",
+    "build:web": "npm run build && parcel build --global holochainclient -o hc-web-client-$npm_package_version.browser.min.js src/index.ts",
     "clean": "rm -rf ./lib && rm -rf ./dist",
     "lint": "tslint -p tsconfig.json",
     "prepublishOnly": "npm test && npm run lint",
