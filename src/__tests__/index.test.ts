@@ -46,35 +46,14 @@ describe('hc-web-client call', () => {
 
   it('produces the expected call object when called with three params', async () => {
     const testUrl = 'ws://localhost:3000'
-    const { call } = await connect(testUrl)
-    await call('instance', 'zome', 'func')({param1: 'x'})
+    const { callZome } = await connect(testUrl)
+    await callZome('instance', 'zome', 'func')({param1: 'x'})
     expect(callMock).toBeCalledWith('call', {
       'instance_id': 'instance',
       'zome': 'zome',
       'function': 'func',
       'params': {param1: 'x'}
     })
-  })
-
-  it('produces the expected call object when called with one slash delimited string', async () => {
-    const testUrl = 'ws://localhost:3000'
-    const { call } = await connect(testUrl)
-    await call('instance/zome/func')({param2: 'y'})
-    expect(callMock).toBeCalledWith('call', {
-      'instance_id': 'instance',
-      'zome': 'zome',
-      'function': 'func',
-      'params': {param2: 'y'}
-    })
-  })
-
-  it('throws the expected error when called with 2 params', async () => {
-    const testUrl = 'ws://localhost:3000'
-    const { call } = await connect(testUrl)
-    expect(call('instance', 'zome')).toThrow('Invalid params to call. \
-          Must be either 3 string spefifying instance, zome, function \
-          or a single string delimited with "/"')
-    
   })
 
 })
