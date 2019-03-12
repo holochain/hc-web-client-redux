@@ -23,7 +23,7 @@ Ensure the web UI is hosted by a Holochain Conductor or manually specify url as 
         [instanceId, zome, func] = methodSegments
       } else {
         throw new Error('Invalid params to call. \
-          Must be either 3 string spefifying instance, zome, function \
+          Must be either 3 string specifying instance, zome, function \
           or a single string delimited with "/"')
       }
 
