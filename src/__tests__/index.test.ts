@@ -68,4 +68,13 @@ describe('hc-web-client call', () => {
     })
   })
 
+  it('throws the expected error when called with 2 params', async () => {
+    const testUrl = 'ws://localhost:3000'
+    const { call } = await connect(testUrl)
+    expect(call('instance', 'zome')).toThrow('Invalid params to call. \
+          Must be either 3 string spefifying instance, zome, function \
+          or a single string delimited with "/"')
+    
+  })
+
 })
