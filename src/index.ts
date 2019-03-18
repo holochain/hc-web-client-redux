@@ -13,8 +13,7 @@ Ensure the web UI is hosted by a Holochain Conductor or manually specify url as 
   const ws = new Client(url)
   ws.on('open', () => {
     const call = (...methodSegments) => (params) => {
-      const method = methodSegments.length === 1 ? methodSegments[0] : methodSegments.join('/')
-      return ws.call(method, params)
+      return ws.call("call", params)
     }
     // define a function which will close the websocket connection
     const close = () => ws.close()
