@@ -25,7 +25,7 @@ This will add a holochainClient field to the window object.
 A full URL including port to the holochain interface is known and will never change. This is ok for development or very specific applications. Usage:
 
 ```javascript
-connect("ws:localhost:3000").then(({call, close}) => {
+connect("ws://localhost:3000").then(({call, close}) => {
     call('app/zome/fn')(params)
 })
 ```
