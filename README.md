@@ -25,8 +25,8 @@ This will add a holochainClient field to the window object.
 A full URL including port to the holochain interface is known and will never change. This is ok for development or very specific applications. Usage:
 
 ```javascript
-connect("ws://localhost:3000").then(({call, close}) => {
-    call('app/zome/fn')(params)
+connect("ws://localhost:3000").then(({callZome, close}) => {
+    callZome('instanceId', 'zome', 'funcName')(params)
 })
 ```
 
@@ -35,8 +35,8 @@ connect("ws://localhost:3000").then(({call, close}) => {
 UI is being served by the holochain conductor. This is the most commonly anticipated usage. Interface port is unknown but valid interface is defined in the conductor config. In this case no url parameter is required and it will automatically call the conductor to retrieve the correct port to make calls on. Usage:
 
 ```javascript
-connect().then(({call, close}) => {
-    call('app/zome/fn')(params)
+connect().then(({callZome, close}) => {
+    callZome('instanceId', 'zome', 'funcName')(params)
 })
 ```
 
@@ -69,7 +69,7 @@ Tests can be run using `npm run test`
 To publish a new release to npm use the following steps. Ensure you are on the master branch then run
 
 - `npm version patch`
-- `npm publish`
+- ` npm publish --access public`
 
 This will automatically build, lint, commit and push a new git tag before publishing. You can alternatively use `npm version major|minor|patch` to increment the correct version number. Please do not modify the version number in the package.json directly.
 
