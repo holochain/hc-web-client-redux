@@ -18,6 +18,7 @@
     "test": "jest --config jestconfig.json"
   },
   "dependencies": {
+    "babel-runtime": "^6.26.0",
     "rpc-websockets": "^4.3.3"
   },
   "devDependencies": {
