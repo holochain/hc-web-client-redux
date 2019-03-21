@@ -46,14 +46,51 @@ describe('hc-web-client call', () => {
 
   it('produces the expected call object when called with three params', async () => {
     const testUrl = 'ws://localhost:3000'
-    const { callZome } = await connect(testUrl)
-    await callZome('instance', 'zome', 'func')({param1: 'x'})
+    const { call } = await connect(testUrl)
+    await call('instance', 'zome', 'func')({param1: 'x'})
     expect(callMock).toBeCalledWith('call', {
       'instance_id': 'instance',
       'zome': 'zome',
       'function': 'func',
       'params': {param1: 'x'}
     })
+  })
+
+  it('produces the expected call object when called with a single slash delimited string (backward compatibility)', async () => {
+    const testUrl = 'ws://localhost:3000'
+    const { call } = await connect(testUrl)
+    await call('instance/zome/func')({param1: 'x'})
+    expect(callMock).toBeCalledWith('call', {
+      'instance_id': 'instance',
+      'zome': 'zome',
+      'function': 'func',
+      'params': {param1: 'x'}
+    })
+  })
+
+  it('gives an error if called with incorrect number of arguments', async () => {
+    const testUrl = 'ws://localhost:3000'
+    const { call } = await connect(testUrl)
+    const expectedErorr = new Error('Invalid arguments. Must call with either a single slash delimited string "instance/zome/func" or three parameters for instance, zome and func.')
+
+    expect(
+      call('instance/zome/func', '')
+    ).toThrow(expectedErorr);
+
+    expect(
+      call()
+    ).toThrow(expectedErorr);
+
+    expect(
+      call('not/valid')
+    ).toThrow(expectedErorr);
+  })
+
+  it('allows low level calls using callRaw', async () => {
+    const testUrl = 'ws://localhost:3000'
+    const { callRaw } = await connect(testUrl)
+    await callRaw('any/method')({param1: 'x'})
+    expect(callMock).toBeCalledWith('any/method', {param1: 'x'})
   })
 
 })
