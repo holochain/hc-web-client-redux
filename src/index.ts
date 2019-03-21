@@ -27,7 +27,7 @@ Ensure the web UI is hosted by a Holochain Conductor or manually specify url as 
       } else if (methodSegments.length === 3) {
         [instanceId, zome, func] = methodSegments
       } else {
-        throw new Error('Invalid arguments. Must call with either a single slash delimited string "instance/zome/func" or three parameters for instance, zome and func.')
+        throw new Error(`Invalid arguments ${methodSegments}. Must call with either a single slash delimited string "instance/zome/func" or three parameters for instance, zome and func.`)
       }
 
       const callObject = {
