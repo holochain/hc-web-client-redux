@@ -13,10 +13,12 @@ import { connect } from '@holochain/hc-web-client'
 ```
 
 For the pure HTML case the hc-web-client.js file in the `dist/` folder must be moved to your project directory and imported using
+
 ```html
 <script type="text/javascript" src="path/to/hc-web-client-0.0.1.browser.min.js"></script>
 ```
-This will add a holochainClient field to the window object.
+
+This will add a `holochainclient` field to the window object.
 
 ## Usage
 
@@ -25,7 +27,7 @@ This will add a holochainClient field to the window object.
 A full URL including port to the holochain interface is known and will never change. This is ok for development or very specific applications. Usage:
 
 ```javascript
-connect("ws:localhost:3000").then(({callZome, close}) => {
+connect("ws://localhost:3000").then(({callZome, close}) => {
     callZome('instanceId', 'zome', 'funcName')(params)
 })
 ```
