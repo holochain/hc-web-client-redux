@@ -6,7 +6,7 @@
   "types": "lib/index.d.ts",
   "license": "AGPL-3.0",
   "scripts": {
-    "build": "tsc --target ES5",
+    "build": "tsc",
     "build:web": "npm run build && parcel build --global holochainclient -o hc-web-client-$npm_package_version.browser.min.js src/index.ts",
     "clean": "rm -rf ./lib && rm -rf ./dist",
     "lint": "tslint -p tsconfig.json",
@@ -21,8 +21,6 @@
     "rpc-websockets": "^4.3.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.3.4",
-    "@babel/plugin-transform-runtime": "^7.3.4",
     "@types/jest": "^24.0.3",
     "jest": "^24.1.0",
     "jest-fetch-mock": "^2.1.0",
