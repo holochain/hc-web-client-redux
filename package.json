@@ -11,7 +11,6 @@
     "clean": "rm -rf ./lib && rm -rf ./dist",
     "lint": "tslint -p tsconfig.json",
     "prepublishOnly": "npm test && npm run lint",
-    "prepare": "npm run build",
     "preversion": "npm run lint",
     "version": "git add -A src",
     "postversion": "git push && git push --tags",
