@@ -14,18 +14,27 @@
     "preversion": "npm run lint",
     "version": "git add -A src",
     "postversion": "git push && git push --tags",
-    "test": "jest --config jestconfig.json"
+    "test": "mocha ./test/index.test.js",
+    "test:browser": "karma start"
   },
   "dependencies": {
     "rpc-websockets": "^4.3.3"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.3",
     "@types/node": "^11.13.0",
-    "jest": "^23.1.0",
-    "jest-fetch-mock": "^2.1.0",
+    "chai": "^4.2.0",
+    "fetch-mock": "^7.3.1",
+    "karma": "^4.0.1",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-firefox-launcher": "^1.1.0",
+    "karma-mocha": "^1.3.0",
+    "karma-parcel": "^0.5.1",
+    "mocha": "^6.0.2",
+    "node-fetch": "^2.3.0",
     "parcel": "^1.10.2",
-    "ts-jest": "^23.10.5",
+    "parcel-bundler": "^1.12.3",
+    "sinon": "^7.3.1",
+    "sinon-chai": "^3.3.0",
     "tslint": "^5.12.1",
     "tslint-config-standard": "^8.0.1",
     "typescript": "^3.1.2"
