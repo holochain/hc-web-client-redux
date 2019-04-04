@@ -6,6 +6,7 @@ const sinonChai = require("sinon-chai")
 chai.use(sinonChai)
 var fetchMock = require('fetch-mock')
 
+
 const { connect } = require('../lib/index')
 
 const callMock = sinon.fake()

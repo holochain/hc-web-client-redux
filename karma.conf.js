@@ -1,5 +1,5 @@
 // Karma configuration
-// Generated on Fri Mar 08 2019 11:59:23 GMT+1100 (AEDT)
+// Generated on Thu Apr 04 2019 14:43:55 GMT+1100 (AEDT)
 
 module.exports = function(config) {
   config.set({
@@ -15,11 +15,13 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-        {
-            pattern: 'src/__tests__/*.test.ts',
-            watched: false,
-            included: false
-        }
+      {
+        // parcel tests should not be watched. Parcel will do the
+        // watching instead
+        pattern: "test/*.js",
+        watched: false,
+        included: false
+      }
     ],
 
 
@@ -31,7 +33,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-        'src/__tests__/*.test.ts': ['parcel']
+        'test/*.js': ['parcel']      
     },
 
 
@@ -55,33 +57,14 @@ module.exports = function(config) {
 
 
     // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: true,
-
-
-    customLaunchers: {
-      ChromeCustom: {
-           base: 'ChromeHeadless',
-           flags: [          
-              '--no-sandbox',
-              '--headless',
-              '--disable-gpu',
-              '--disable-translate',
-              '--disable-extensions'
-          ]
-       }
-    },
-
-    browserNoActivityTimeout: 60000,
+    singleRun: true,
 
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['ChromeCustom', 'Firefox'],
+    browsers: ['FirefoxHeadless', 'ChromeHeadless'],
 
-
-    // Continuous Integration mode
-    // if true, Karma captures browsers, runs the tests and exits
-    singleRun: true,
+    browserNoActivityTimeout: 30000,
 
     // Concurrency level
     // how many browser should be started simultaneous
