@@ -59,12 +59,24 @@ module.exports = function(config) {
     // enable / disable watching file and executing tests whenever any file changes
     singleRun: true,
 
+    customLaunchers: {
+      ChromeCustom: {
+           base: 'ChromeHeadless',
+           flags: [          
+              '--no-sandbox',
+              '--headless',
+              '--disable-gpu',
+              '--disable-translate',
+              '--disable-extensions'
+          ]
+       }
+    },
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['FirefoxHeadless'],
+    browsers: ['ChromeCustom'],
 
-    browserNoActivityTimeout: 30000,
+    browserNoActivityTimeout: 60000,
 
     // Concurrency level
     // how many browser should be started simultaneous
