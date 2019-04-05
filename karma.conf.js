@@ -2,7 +2,7 @@
 // Generated on Thu Apr 04 2019 14:43:55 GMT+1100 (AEDT)
 
 module.exports = function(config) {
-  config.set({
+  var configuration = {
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
@@ -62,12 +62,12 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['FirefoxHeadless', 'ChromeHeadless', 'MyHeadlessChrome'],
+    browsers: ['FirefoxHeadless', 'ChromeHeadless'],
 
     customLaunchers: {
-      MyHeadlessChrome: {
+      Chrome_travis_ci: {
         base: 'ChromeHeadless',
-        flags: ['--no-sandbox', '--disable-translate', '--disable-extensions', '--remote-debugging-port=9223']
+        flags: ['--no-sandbox']
       }
     },
 
@@ -77,5 +77,12 @@ module.exports = function(config) {
     // Concurrency level
     // how many browser should be started simultaneous
     concurrency: Infinity
-  })
+  };
+
+  if(process.env.TRAVIS) {
+    configuration.browsers = ['Chrome_travis_ci'];
+  }
+
+  config.set(configuration);
+
 }
