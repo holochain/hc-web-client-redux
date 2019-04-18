@@ -16,7 +16,7 @@ For the pure HTML case the hc-web-client.js file in the `dist/` folder must be m
 ```html
 <script type="text/javascript" src="path/to/hc-web-client-0.0.1.browser.min.js"></script>
 ```
-This will add a holochainClient field to the window object.
+This will add a `holochainclient` field to the window object.
 
 ## Usage
 
