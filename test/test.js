@@ -89,3 +89,38 @@ describe('hc-web-client call', () => {
   })
 
 })
+
+describe('hc-web-client onSignal', () => {
+
+  beforeEach(() => {
+    sinon.stub(rpcws, 'Client').returns(
+      {
+        on: sinon.fake((on, callback) => {
+          if (on === 'message') {
+            return callback({signal: {
+              signal_data: 'test signal data'
+            }})
+          } else {
+            return callback()
+          }
+        }),
+        call: sinon.fake((method, params) => {
+          callMock(method, params)
+        }),
+      }
+    )
+  })
+
+  afterEach(() => {
+    rpcws.Client.restore();
+  });
+
+  it('returns a onSignal function which takes a closure to run when a signal message is received', async () => {
+    const testUrl = 'ws://localhost:3000'
+    const { onSignal } = await connect(testUrl)
+    onSignal((signal) => {
+      expect(signal).to.deep.equal({ signal_data: 'test signal data' })
+    })
+  })
+
+})

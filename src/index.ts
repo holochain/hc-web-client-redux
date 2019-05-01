@@ -4,9 +4,10 @@ const CONDUCTOR_CONFIG = '/_dna_connections.json'
 
 type Call = (...segments: Array<string>) => (params: any) => Promise<any>
 type CallZome = (instanceId: string, zome: string, func: string) => (params: any) => Promise<any>
+type OnSignal = (callback: (params: any) => void) => void
 type Close = () => Promise<any>
 
-export const connect = (paramUrl?: string) => new Promise<{call: Call, callZome: CallZome, close: Close, ws: any}>(async (fulfill, reject) => {
+export const connect = (paramUrl?: string) => new Promise<{call: Call, callZome: CallZome, close: Close, onSignal: OnSignal, ws: any}>(async (fulfill, reject) => {
   const url = paramUrl || await getUrlFromContainer().catch(() => reject(
     'Could not auto-detect DNA interface from conductor. \
 Ensure the web UI is hosted by a Holochain Conductor or manually specify url as parameter to connect'))
@@ -26,9 +27,16 @@ Ensure the web UI is hosted by a Holochain Conductor or manually specify url as 
       }
       return ws.call('call', callObject)
     }
+    const onSignal: OnSignal = (callback: (params: any) => void) => {
+      ws.on('message', (message: any) => {
+        if (message && message.signal) {
+          callback(message.signal)
+        }
+      })
+    }
     // define a function which will close the websocket connection
     const close = () => ws.close()
-    fulfill({ call, callZome, close, ws })
+    fulfill({ call, callZome, close, onSignal, ws })
   })
 })
 
