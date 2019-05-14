@@ -39,7 +39,7 @@ describe('hc-web-client connect', () => {
 
   it('Can connect by passing no params and retriving port from endpoint', async () => {
     const testPort = 1234
-    fetchMock.getOnce('*', 
+    fetchMock.getOnce('*',
       JSON.stringify({ 'dna_interface': { 'id': 'websocket interface','driver': { 'type': 'websocket','port': testPort },'admin': true,'instances': [] } })
     )
     await connect()
@@ -84,7 +84,7 @@ describe('hc-web-client call', () => {
       'instance_id': 'instance',
       'zome': 'zome',
       'function': 'func',
-      'params': {param1: 'x'}
+      'args': {param1: 'x'}
     })
   })
 
