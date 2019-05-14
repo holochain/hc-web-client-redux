@@ -22,7 +22,7 @@ Ensure the web UI is hosted by a Holochain Conductor or manually specify url as 
         'instance_id': instanceId,
         zome,
         'function': func,
-        params
+        'args': params
       }
       return ws.call('call', callObject)
     }
