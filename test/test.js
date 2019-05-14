@@ -84,7 +84,7 @@ describe('hc-web-client call', () => {
       'instance_id': 'instance',
       'zome': 'zome',
       'function': 'func',
-      'params': {param1: 'x'}
+      'args': {param1: 'x'}
     })
   })
 

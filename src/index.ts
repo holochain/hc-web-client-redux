@@ -17,12 +17,12 @@ Ensure the web UI is hosted by a Holochain Conductor or manually specify url as 
       const method = methodSegments.length === 1 ? methodSegments[0] : methodSegments.join('/')
       return ws.call(method, params)
     }
-    const callZome = (instanceId, zome, func) => (params) => {
+    const callZome = (instanceId, zome, func) => (args) => {
       const callObject = {
         'instance_id': instanceId,
         zome,
         'function': func,
-        params
+        args
       }
       return ws.call('call', callObject)
     }
