@@ -1,17 +1,23 @@
 import { Client } from 'rpc-websockets'
 
 const CONDUCTOR_CONFIG = '/_dna_connections.json'
+const DEFAULT_TIMEOUT = 5000
 
 type Call = (...segments: Array<string>) => (params: any) => Promise<any>
 type CallZome = (instanceId: string, zome: string, func: string) => (params: any) => Promise<any>
 type OnSignal = (callback: (params: any) => void) => void
 type Close = () => Promise<any>
 
-export const connect = (paramUrl?: string) => new Promise<{call: Call, callZome: CallZome, close: Close, onSignal: OnSignal, ws: any}>(async (fulfill, reject) => {
-  const url = paramUrl || await getUrlFromContainer().catch(() => reject(
+type ConnectOpts = {
+  url?: string,
+  timeout?: number,
+}
+
+export const connect = (opts: ConnectOpts) => new Promise<{call: Call, callZome: CallZome, close: Close, onSignal: OnSignal, ws: any}>(async (fulfill, reject) => {
+  const url = opts.url || await getUrlFromContainer().catch(() => reject(
     'Could not auto-detect DNA interface from conductor. \
 Ensure the web UI is hosted by a Holochain Conductor or manually specify url as parameter to connect'))
-
+  const timeout = opts.timeout || DEFAULT_TIMEOUT
   const ws = new Client(url)
 
   ws.on('open', () => 'WS open')
@@ -20,7 +26,7 @@ Ensure the web UI is hosted by a Holochain Conductor or manually specify url as 
   ws.once('open', () => {
     const call = (...methodSegments) => (params) => {
       const method = methodSegments.length === 1 ? methodSegments[0] : methodSegments.join('/')
-      return callWhenConnected(ws, method, params)
+      return callWhenConnected(ws, method, params, opts.timeout)
     }
     const callZome = (instanceId, zome, func) => (params) => {
       const callObject = {
@@ -29,7 +35,7 @@ Ensure the web UI is hosted by a Holochain Conductor or manually specify url as 
         'function': func,
         params
       }
-      return callWhenConnected(ws, 'call', callObject)
+      return callWhenConnected(ws, 'call', callObject, opts.timeout)
     }
     const onSignal: OnSignal = (callback: (params: any) => void) => {
       // go down to the underlying websocket connection (.socket)
@@ -59,14 +65,16 @@ function getUrlFromContainer (): Promise<string> {
  * Ensure that a ws client never attempts to call when the socket is not ready
  * Instead, return a promise that resolves only when the socket is connected and the call is made
  */
-async function callWhenConnected (ws, method, payload, timeout=3000) {
+async function callWhenConnected (ws, method, payload, timeout=null) {
   if (ws.ready) {
     return Promise.resolve(ws.call(method, payload))
   } else {
     return new Promise((resolve, reject) => {
-      const timer = setTimeout(() => {
-        reject(`Timeout while waiting for ws to connect. method: ${method}, payload: ${JSON.stringify(payload)}`)
-      }, timeout)
+      const timer = timeout
+        ? setTimeout(() => {
+          reject(`Timeout while waiting for ws to connect. method: ${method}, payload: ${JSON.stringify(payload)}`)
+        }, timeout)
+        : null
       ws.once('open', () => {
         clearTimeout(timer)
         ws.call(method, payload).then(resolve).catch(reject)
