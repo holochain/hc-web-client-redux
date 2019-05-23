@@ -11,14 +11,23 @@ type Close = () => Promise<any>
 type ConnectOpts = {
   url?: string,
   timeout?: number,
+  wsClient?: any,
 }
 
+/**
+ * Establish a websocket connection to a Conductor interface
+ * Accepts an object of options:
+ *   - url (optional): Specifies the URL to establish the connection with
+ *   - wsClient (optional): Object of options that gets passed through as configuration to the rpc-websockets client
+ *   - timeout (optional): If the socket is not ready, `call` and `callZome` will wait this many milliseconds for the
+ *       socket to be ready before timing out and rejecting the promise.
+ */
 export const connect = (opts: ConnectOpts) => new Promise<{call: Call, callZome: CallZome, close: Close, onSignal: OnSignal, ws: any}>(async (fulfill, reject) => {
   const url = opts.url || await getUrlFromContainer().catch(() => reject(
     'Could not auto-detect DNA interface from conductor. \
 Ensure the web UI is hosted by a Holochain Conductor or manually specify url as parameter to connect'))
   const timeout = opts.timeout || DEFAULT_TIMEOUT
-  const ws = new Client(url)
+  const ws = new Client(url, opts.wsClient)
 
   ws.on('open', () => 'WS open')
   ws.on('close', () => 'WS closed')
