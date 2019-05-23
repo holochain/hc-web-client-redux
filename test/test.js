@@ -96,14 +96,19 @@ describe('hc-web-client onSignal', () => {
     sinon.stub(rpcws, 'Client').returns(
       {
         on: sinon.fake((on, callback) => {
-          if (on === 'message') {
-            return callback({signal: {
-              signal_data: 'test signal data'
-            }})
-          } else {
-            return callback()
-          }
+          return callback()
         }),
+        socket: {
+          on: sinon.fake((on, callback) => {
+            if (on === 'message') {
+              return callback(JSON.stringify({signal: {
+                signal_data: 'test signal data'
+              }}))
+            } else {
+              return callback()
+            }
+          }),
+        },
         call: sinon.fake((method, params) => {
           callMock(method, params)
         }),
