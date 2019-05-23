@@ -20,7 +20,8 @@ type ConnectOpts = {
  *   - url (optional): Specifies the URL to establish the connection with
  *   - wsClient (optional): Object of options that gets passed through as configuration to the rpc-websockets client
  *   - timeout (optional): If the socket is not ready, `call` and `callZome` will wait this many milliseconds for the
- *       socket to be ready before timing out and rejecting the promise.
+ *       socket to be ready before timing out and rejecting the promise. Defaults to 5 seconds, but if you set it
+ *       to 0 or null, it will never timeout.
  */
 export const connect = (opts: ConnectOpts) => new Promise<{call: Call, callZome: CallZome, close: Close, onSignal: OnSignal, ws: any}>(async (fulfill, reject) => {
   const url = opts.url || await getUrlFromContainer().catch(() => reject(
