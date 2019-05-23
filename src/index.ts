@@ -23,7 +23,7 @@ type ConnectOpts = {
  *       socket to be ready before timing out and rejecting the promise. Defaults to 5 seconds, but if you set it
  *       to 0 or null, it will never timeout.
  */
-export const connect = (opts: ConnectOpts) => new Promise<{call: Call, callZome: CallZome, close: Close, onSignal: OnSignal, ws: any}>(async (fulfill, reject) => {
+export const connect = (opts: ConnectOpts = {}) => new Promise<{call: Call, callZome: CallZome, close: Close, onSignal: OnSignal, ws: any}>(async (fulfill, reject) => {
   const url = opts.url || await getUrlFromContainer().catch(() => reject(
     'Could not auto-detect DNA interface from conductor. \
 Ensure the web UI is hosted by a Holochain Conductor or manually specify url as parameter to connect'))
