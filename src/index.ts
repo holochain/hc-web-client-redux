@@ -1,5 +1,7 @@
 import { Client } from 'rpc-websockets'
 
+require('isomorphic-fetch')
+
 const CONDUCTOR_CONFIG = '/_dna_connections.json'
 const DEFAULT_TIMEOUT = 5000
 

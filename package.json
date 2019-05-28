@@ -20,6 +20,7 @@
     "test:browser": "karma start"
   },
   "dependencies": {
+    "isomorphic-fetch": "^2.2.1",
     "rpc-websockets": "^4.3.3"
   },
   "devDependencies": {
