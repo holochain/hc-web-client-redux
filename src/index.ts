@@ -54,7 +54,7 @@ Ensure the web UI is hosted by a Holochain Conductor or manually specify url as 
         if (!message) return
         const msg = JSON.parse(message)
         if (msg.signal) {
-          callback(msg.signal)
+          callback(msg)
         }
       })
     }

@@ -135,7 +135,7 @@ describe('hc-web-client onSignal', () => {
     const testUrl = 'ws://localhost:3000'
     const { onSignal } = await connect({url: testUrl})
     onSignal((signal) => {
-      expect(signal).to.deep.equal({ signal_data: 'test signal data' })
+      expect(signal).to.deep.equal({ signal: { signal_data: 'test signal data' } })
     })
   })
 
