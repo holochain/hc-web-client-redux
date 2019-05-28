@@ -1,5 +1,7 @@
 import { Client } from 'rpc-websockets'
 
+const fetch = require('node-fetch')
+
 const CONDUCTOR_CONFIG = '/_dna_connections.json'
 const DEFAULT_TIMEOUT = 5000
 
