@@ -9,7 +9,7 @@ var fetchMock = require('fetch-mock')
 
 const { connect } = require('../lib/index')
 
-const callMock = sinon.fake()
+const callMock = sinon.fake.resolves(null)
 
 describe('hc-web-client connect', () => {
 
@@ -19,9 +19,10 @@ describe('hc-web-client connect', () => {
         on: sinon.fake((on, callback) => {
           return callback()
         }),
-        call: sinon.fake((method, params) => {
-          callMock(method, params)
+        once: sinon.fake((on, callback) => {
+          return callback()
         }),
+        call: sinon.fake((method, params) => callMock(method, params)),
       }
     )
   })
@@ -33,13 +34,21 @@ describe('hc-web-client connect', () => {
 
   it('Can connect by passing URL', async () => {
     const testUrl = 'ws://localhost:3000'
-    await connect(testUrl)
+    await connect({url: testUrl})
     expect(rpcws.Client).to.have.been.calledWith(testUrl)
   })
 
-  it('Can connect by passing no params and retriving port from endpoint', async () => {
+  it('Can connect by passing URL and options', async () => {
+    const testUrl = 'ws://localhost:3000'
+    const timeout = 1000
+    const wsClient = {autoreconnect: false}
+    await connect({url: testUrl, wsClient, timeout})
+    expect(rpcws.Client).to.have.been.calledWith(testUrl, wsClient)
+  })
+
+  it('Can connect by passing no params and retrieving port from endpoint', async () => {
     const testPort = 1234
-    fetchMock.getOnce('*', 
+    fetchMock.getOnce('*',
       JSON.stringify({ 'dna_interface': { 'id': 'websocket interface','driver': { 'type': 'websocket','port': testPort },'admin': true,'instances': [] } })
     )
     await connect()
@@ -65,9 +74,10 @@ describe('hc-web-client call', () => {
         on: sinon.fake((on, callback) => {
           return callback()
         }),
-        call: sinon.fake((method, params) => {
-          callMock(method, params)
+        once: sinon.fake((on, callback) => {
+          return callback()
         }),
+        call: sinon.fake((method, params) => callMock(method, params)),
       }
     )
   })
@@ -78,13 +88,54 @@ describe('hc-web-client call', () => {
 
   it('produces the expected call object when called with three params', async () => {
     const testUrl = 'ws://localhost:3000'
-    const { callZome } = await connect(testUrl)
+    const { callZome } = await connect({url: testUrl})
     await callZome('instance', 'zome', 'func')({param1: 'x'})
     expect(callMock).to.have.been.calledWith('call', {
       'instance_id': 'instance',
       'zome': 'zome',
       'function': 'func',
       'args': {param1: 'x'}
+    })
+  })
+
+})
+
+describe('hc-web-client onSignal', () => {
+
+  beforeEach(() => {
+    sinon.stub(rpcws, 'Client').returns(
+      {
+        on: sinon.fake((on, callback) => {
+          return callback()
+        }),
+        once: sinon.fake((on, callback) => {
+          return callback()
+        }),
+        socket: {
+          on: sinon.fake((on, callback) => {
+            if (on === 'message') {
+              return callback(JSON.stringify({signal: {
+                signal_data: 'test signal data'
+              }}))
+            } else {
+              return callback()
+            }
+          }),
+        },
+        call: sinon.fake((method, params) => callMock(method, params)),
+      }
+    )
+  })
+
+  afterEach(() => {
+    rpcws.Client.restore();
+  });
+
+  it('returns a onSignal function which takes a closure to run when a signal message is received', async () => {
+    const testUrl = 'ws://localhost:3000'
+    const { onSignal } = await connect({url: testUrl})
+    onSignal((signal) => {
+      expect(signal).to.deep.equal({ signal: { signal_data: 'test signal data' } })
     })
   })
 
