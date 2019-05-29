@@ -13,7 +13,7 @@ type Close = () => Promise<any>
 type ConnectOpts = {
   url?: string,
   timeout?: number,
-  wsClient?: any,
+  wsClient?: any
 }
 
 /**
@@ -77,7 +77,7 @@ function getUrlFromContainer (): Promise<string> {
  * Ensure that a ws client never attempts to call when the socket is not ready
  * Instead, return a promise that resolves only when the socket is connected and the call is made
  */
-async function callWhenConnected (ws, method, payload, timeout=null) {
+async function callWhenConnected (ws, method, payload, timeout = null) {
   if (ws.ready) {
     return Promise.resolve(ws.call(method, payload))
   } else {
@@ -94,6 +94,5 @@ async function callWhenConnected (ws, method, payload, timeout=null) {
     })
   }
 }
-
 
 const holochainclient = { connect }
