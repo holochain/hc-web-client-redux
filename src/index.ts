@@ -26,7 +26,7 @@ type ConnectOpts = {
  *       to 0 or null, it will never timeout.
  */
 export const connect = (opts: ConnectOpts = {}) => new Promise<{call: Call, callZome: CallZome, close: Close, onSignal: OnSignal, ws: any}>(async (fulfill, reject) => {
-  const url = opts.url || await getUrlFromContainer().catch(() => reject(
+  const url = opts.url || await getUrlFromConductor().catch(() => reject(
     'Could not auto-detect DNA interface from conductor. \
 Ensure the web UI is hosted by a Holochain Conductor or manually specify url as parameter to connect'))
   const timeout = opts.timeout || DEFAULT_TIMEOUT
@@ -66,7 +66,7 @@ Ensure the web UI is hosted by a Holochain Conductor or manually specify url as 
   })
 })
 
-function getUrlFromContainer (): Promise<string> {
+function getUrlFromConductor (): Promise<string> {
   return fetch(CONDUCTOR_CONFIG)
     .then(data => data.json())
     .then(json => json.dna_interface.driver.port)
