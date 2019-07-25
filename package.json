@@ -1,10 +1,14 @@
 {
   "name": "@holochain/hc-web-client",
-  "version": "0.5.0",
-  "description": "Holochain container connection helper for web based UIs",
+  "version": "0.5.1",
+  "description": "Holochain Conductor connection helper for web based UIs and any Javascript client",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "license": "AGPL-3.0",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/holochain/hc-web-client.git"
+  },
   "scripts": {
     "build": "tsc",
     "build:web": "npm run build && parcel build --global holochainclient -o hc-web-client-$npm_package_version.browser.min.js src/index.ts",
