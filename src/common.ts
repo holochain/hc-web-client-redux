@@ -4,16 +4,21 @@ export type CallZome = (instanceId: string, zome: string, func: string) => (para
 export type OnSignal = (callback: (params: any) => void) => void
 export type Close = () => Promise<any>
 
-export type ConnectOpts = {
-  type: 'websocket'
+export type ConnectWebsocketOpts = {
   url?: string,
   timeout?: number,
   wsClient?: any
-} | {
-  type: 'unix',
+}
+export type ConnectUnixOpts = {
   file: string,
   timeout?: number,
 }
+
+export type ConnectOpts =
+  // default is websocket, so type can be websocket or anything else
+  (ConnectWebsocketOpts & { type: 'websocket' | any })
+  // type has to be unix to get unix opts
+  | (ConnectUnixOpts & { type: 'unix' })
 
 export type HcClient = { call: Call, callZome: CallZome, close: Close, onSignal: OnSignal }
 

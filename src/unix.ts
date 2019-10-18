@@ -1,5 +1,6 @@
-import { HcClient, ConnectOpts, OnSignal } from './common'
-
+import { HcClient, OnSignal, ConnectUnixOpts } from './common'
+import * as ipc from 'json-ipc-lib'
+import net from 'net'
 
 const DEFAULT_TIMEOUT = 5000
 
@@ -12,28 +13,33 @@ const DEFAULT_TIMEOUT = 5000
  *       socket to be ready before timing out and rejecting the promise. Defaults to 5 seconds, but if you set it
  *       to 0 or null, it will never timeout.
  */
-export default (opts: ConnectOpts = {}) => new Promise<HcClient>(async (fulfill, reject) => {
+export default (opts: ConnectUnixOpts) => new Promise<HcClient>(async (fulfill, reject) => {
 
   const timeout = opts.timeout || DEFAULT_TIMEOUT
-  const ws = new ipc.Client(url, opts.wsClient)
+  const client = new ipc.Client(opts.file)
+  const socket = net.createConnection(opts.file)
 
-  ws.on('open', () => 'WS open')
-  ws.on('close', () => 'WS closed')
-
-  ws.once('open', () => {
-    const call = (...methodSegments) => (params) => {
-      // TODO
+  const call = (...methodSegments) => (params) => {
+    const method = methodSegments.length === 1 ? methodSegments[0] : methodSegments.join('/')
+    return client.call(method, params)
+  }
+  const callZome = (instanceId, zome, func) => (args) => {
+    const callObject = {
+      'instance_id': instanceId,
+      zome,
+      'function': func,
+      args
     }
-    const callZome = (instanceId, zome, func) => (args) => {
-      // TODO
-    }
-    const onSignal: OnSignal = (callback: (params: any) => void) => {
-      // TODO
-    }
-    // define a function which will close the websocket connection
-    const close = () => {
-      // TODO
-    }
-    fulfill({ call, callZome, close, onSignal })
-  })
+    return client.call('call', callObject)
+  }
+  const onSignal: OnSignal = (callback: (params: any) => void) => {
+    socket.on('data', callback)
+  }
+  // define a function which will close the websocket connection
+  const close = () => {
+    socket.destroy()
+    // TODO: close ipc socket?
+    return Promise.resolve()
+  }
+  fulfill({ call, callZome, close, onSignal })
 })
