@@ -10,7 +10,7 @@ export type ConnectWebsocketOpts = {
   wsClient?: any
 }
 export type ConnectUnixOpts = {
-  file: string,
+  path: string,
   timeout?: number,
 }
 
