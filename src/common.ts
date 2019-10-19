@@ -20,5 +20,6 @@ export type ConnectOpts =
   // type has to be unix to get unix opts
   | (ConnectUnixOpts & { type: 'unix' })
 
-export type HcClient = { call: Call, callZome: CallZome, close: Close, onSignal: OnSignal }
+export interface HcClient { call: Call, callZome: CallZome, close: Close, onSignal: OnSignal }
 
+export type HcWebsocketClient = { ws: any } & HcClient

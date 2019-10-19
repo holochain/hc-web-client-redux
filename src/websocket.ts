@@ -1,5 +1,5 @@
 import { Client } from 'rpc-websockets'
-import { HcClient, ConnectWebsocketOpts, OnSignal } from './common'
+import { HcWebsocketClient, ConnectWebsocketOpts, OnSignal } from './common'
 
 require('isomorphic-fetch')
 
@@ -16,7 +16,7 @@ const DEFAULT_TIMEOUT = 5000
  *       socket to be ready before timing out and rejecting the promise. Defaults to 5 seconds, but if you set it
  *       to 0 or null, it will never timeout.
  */
-export default (opts: ConnectWebsocketOpts = {}) => new Promise<HcClient>(async (fulfill, reject) => {
+export default (opts: ConnectWebsocketOpts = {}) => new Promise<HcWebsocketClient>(async (fulfill, reject) => {
   const url = opts.url || await getUrlFromConductor().catch(() => reject(
     'Could not auto-detect DNA interface from conductor. \
 Ensure the web UI is hosted by a Holochain Conductor or manually specify url as parameter to connect'))
