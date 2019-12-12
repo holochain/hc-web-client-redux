@@ -55,9 +55,7 @@ Ensure the web UI is hosted by a Holochain Conductor or manually specify url as 
       ws.socket.on('message', (message: any) => {
         if (!message) return
         const msg = JSON.parse(message)
-        if (msg.signal) {
-          callback(msg)
-        }
+        callback(msg)
       })
     }
     // define a function which will close the websocket connection
