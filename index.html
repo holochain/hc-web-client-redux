@@ -13,7 +13,7 @@
   <button id="close">Close WS connection</button>
   <div id="output"></div>
 
-  <script type="text/javascript" src="dist/hc-web-client-0.0.1.browser.min.js"></script>
+  <script type="text/javascript" src="dist/hc-web-client-0.5.2.browser.min.js"></script>
 
   <script type="text/javascript">
     const holochainUrl =  'ws://localhost:3000/'
@@ -34,7 +34,7 @@
           const createPost = call(instance, zomeName, functionName)
           createPost(params)
         })
-      })
+      }).catch(console.log('hcClient error: ', e));
 
       document.getElementById('info').addEventListener('click', e => {
         call('info/instances')().then(data => console.log(data))

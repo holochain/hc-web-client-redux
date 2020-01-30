@@ -71,7 +71,7 @@ Tests can be run using `npm run test`
 To publish a new release to npm use the following steps. Ensure you are on the master branch then run
 
 - `npm version patch`
-- ` npm publish --access public`
+- `npm publish --access public`
 
 This will automatically build, lint, commit and push a new git tag before publishing. You can alternatively use `npm version major|minor|patch` to increment the correct version number. Please do not modify the version number in the package.json directly.
 

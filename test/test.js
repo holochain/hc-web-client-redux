@@ -55,7 +55,7 @@ describe('hc-web-client connect', () => {
     expect(rpcws.Client).to.have.been.calledWith(`ws://localhost:${testPort}`)
   })
 
-  it('Can can gracefully handle errors when trying to connect', async () => {
+  it('Can gracefully handle errors when trying to connect', async () => {
     fetchMock.getOnce('*', JSON.stringify({ }))
     try {
       await connect()

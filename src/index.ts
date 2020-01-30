@@ -34,6 +34,7 @@ Ensure the web UI is hosted by a Holochain Conductor or manually specify url as 
 
   ws.on('open', () => 'WS open')
   ws.on('close', () => 'WS closed')
+  ws.on('error', (e) => reject(e))
 
   ws.once('open', () => {
     const call = (...methodSegments) => (params) => {
