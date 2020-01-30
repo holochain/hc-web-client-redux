@@ -1,6 +1,6 @@
 {
   "name": "@holochain/hc-web-client",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Holochain Conductor connection helper for web based UIs and any Javascript client",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
