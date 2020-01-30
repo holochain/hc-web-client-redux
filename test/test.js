@@ -34,7 +34,11 @@ describe('hc-web-client connect', () => {
 
   it('Can connect by passing URL', async () => {
     const testUrl = 'ws://localhost:3000'
-    await connect({url: testUrl})
+    try {
+        await connect({url: testUrl})
+    } catch (e) {
+    }
+
     expect(rpcws.Client).to.have.been.calledWith(testUrl)
   })
 
@@ -42,7 +46,10 @@ describe('hc-web-client connect', () => {
     const testUrl = 'ws://localhost:3000'
     const timeout = 1000
     const wsClient = {autoreconnect: false}
-    await connect({url: testUrl, wsClient, timeout})
+    try {
+        await connect({url: testUrl, wsClient, timeout})
+    } catch (e) {
+    }
     expect(rpcws.Client).to.have.been.calledWith(testUrl, wsClient)
   })
 
@@ -51,11 +58,14 @@ describe('hc-web-client connect', () => {
     fetchMock.getOnce('*',
       JSON.stringify({ 'dna_interface': { 'id': 'websocket interface','driver': { 'type': 'websocket','port': testPort },'admin': true,'instances': [] } })
     )
-    await connect()
+    try {
+        await connect()
+    } catch (e) {
+    }
     expect(rpcws.Client).to.have.been.calledWith(`ws://localhost:${testPort}`)
   })
 
-  it('Can can gracefully handle errors when trying to connect', async () => {
+  it('Can gracefully handle errors when trying to connect', async () => {
     fetchMock.getOnce('*', JSON.stringify({ }))
     try {
       await connect()
@@ -64,79 +74,15 @@ describe('hc-web-client connect', () => {
     }
   })
 
-})
-
-describe('hc-web-client call', () => {
-
-  beforeEach(() => {
-    sinon.stub(rpcws, 'Client').returns(
-      {
-        on: sinon.fake((on, callback) => {
-          return callback()
-        }),
-        once: sinon.fake((on, callback) => {
-          return callback()
-        }),
-        call: sinon.fake((method, params) => callMock(method, params)),
-      }
-    )
-  })
-
-  afterEach(() => {
-    rpcws.Client.restore();
-  });
-
-  it('produces the expected call object when called with three params', async () => {
+  it('Can gracefuly handle errors when no connection to ws is available', async () => {
     const testUrl = 'ws://localhost:3000'
-    const { callZome } = await connect({url: testUrl})
-    await callZome('instance', 'zome', 'func')({param1: 'x'})
-    expect(callMock).to.have.been.calledWith('call', {
-      'instance_id': 'instance',
-      'zome': 'zome',
-      'function': 'func',
-      'args': {param1: 'x'}
-    })
-  })
+    try {
+        await connect({url: testUrl})
+    } catch (e) {
+        expect(e).to.equal(`Could not establish websocket connection with requested url`)
+    }
 
-})
-
-describe('hc-web-client onSignal', () => {
-
-  beforeEach(() => {
-    sinon.stub(rpcws, 'Client').returns(
-      {
-        on: sinon.fake((on, callback) => {
-          return callback()
-        }),
-        once: sinon.fake((on, callback) => {
-          return callback()
-        }),
-        socket: {
-          on: sinon.fake((on, callback) => {
-            if (on === 'message') {
-              return callback(JSON.stringify({signal: {
-                signal_data: 'test signal data'
-              }}))
-            } else {
-              return callback()
-            }
-          }),
-        },
-        call: sinon.fake((method, params) => callMock(method, params)),
-      }
-    )
-  })
-
-  afterEach(() => {
-    rpcws.Client.restore();
-  });
-
-  it('returns a onSignal function which takes a closure to run when a signal message is received', async () => {
-    const testUrl = 'ws://localhost:3000'
-    const { onSignal } = await connect({url: testUrl})
-    onSignal((signal) => {
-      expect(signal).to.deep.equal({ signal: { signal_data: 'test signal data' } })
-    })
+    expect(rpcws.Client).to.have.been.calledWith(testUrl)
   })
 
 })
