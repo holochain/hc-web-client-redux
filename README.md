@@ -27,7 +27,7 @@ This will add a `holochainclient` field to the window object.
 A full URL including port to the holochain interface is known and will never change. This is ok for development or very specific applications. Usage:
 
 ```javascript
-connect({ url: "ws://localhost:3000" }).then(({callZome, close, onSignal }) => {
+connect({ url: "ws://localhost:3000" }).then(({ callZome, close, onSignal }) => {
     callZome('instanceId', 'zome', 'funcName')(params)
 })
 ```
@@ -37,7 +37,7 @@ connect({ url: "ws://localhost:3000" }).then(({callZome, close, onSignal }) => {
 UI is being served by the holochain conductor. This is the most commonly anticipated usage. Interface port is unknown but valid interface is defined in the conductor config. In this case no url parameter is required and it will automatically call the conductor to retrieve the correct port to make calls on. Usage:
 
 ```javascript
-connect().then(({callZome, close, onSignal }) => {
+connect().then(({ callZome, close, onSignal }) => {
     callZome('instanceId', 'zome', 'funcName')(params)
 })
 ```
@@ -49,7 +49,7 @@ Using it is as simple as calling `onSignal` with a callback to run every time th
 
 **Example Usage**
 ```javascript
-connect().then(({callZome, close, onSignal }) => {
+connect().then(({ callZome, close, onSignal }) => {
     onSignal((signal) => {
         console.log(signal)
     })
