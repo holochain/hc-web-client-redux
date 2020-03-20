@@ -32,14 +32,14 @@ Ensure the web UI is hosted by a Holochain Conductor or manually specify url as 
   const timeout = opts.timeout || DEFAULT_TIMEOUT
   const ws = new Client(url, opts.wsClient)
 
-  ws.on('open', () => 'WS open')
-  ws.on('close', () => 'WS closed')
+  ws.on('open', () => console.debug('hc-web-client: websocket open'))
+  ws.on('close', () => console.debug('hc-web-client: websocket closed'))
   ws.on('error', (e) => reject(e || 'Could not establish websocket connection with requested url'))
 
   ws.once('open', () => {
     const call = (...methodSegments) => (params) => {
       const method = methodSegments.length === 1 ? methodSegments[0] : methodSegments.join('/')
-      return callWhenConnected(ws, method, params, opts.timeout)
+      return callWhenConnected(ws, method, params, timeout)
     }
     const callZome = (instanceId, zome, func) => (args) => {
       const callObject = {
@@ -48,7 +48,7 @@ Ensure the web UI is hosted by a Holochain Conductor or manually specify url as 
         'function': func,
         args
       }
-      return callWhenConnected(ws, 'call', callObject, opts.timeout)
+      return callWhenConnected(ws, 'call', callObject, timeout)
     }
     const onSignal: OnSignal = (callback: (params: any) => void) => {
       // go down to the underlying websocket connection (.socket)
