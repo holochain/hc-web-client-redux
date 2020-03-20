@@ -32,8 +32,8 @@ Ensure the web UI is hosted by a Holochain Conductor or manually specify url as 
   const timeout = opts.timeout || DEFAULT_TIMEOUT
   const ws = new Client(url, opts.wsClient)
 
-  ws.on('open', () => console.log('WS open'))
-  ws.on('close', () => console.log('WS closed'))
+  ws.on('open', () => console.debug('hc-web-client: websocket open'))
+  ws.on('close', () => console.debug('hc-web-client: websocket closed'))
   ws.on('error', (e) => reject(e || 'Could not establish websocket connection with requested url'))
 
   ws.once('open', () => {
