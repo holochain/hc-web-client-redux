@@ -31,6 +31,8 @@ export const connect = (opts: ConnectOpts = {}) => new Promise<{call: Call, call
 Ensure the web UI is hosted by a Holochain Conductor or manually specify url as parameter to connect'))
   const timeout = opts.timeout || DEFAULT_TIMEOUT
   const ws = new Client(url, opts.wsClient)
+  
+  
 
   ws.on('open', () => console.debug('hc-web-client: websocket open'))
   ws.on('close', () => console.debug('hc-web-client: websocket closed'))
@@ -53,13 +55,18 @@ Ensure the web UI is hosted by a Holochain Conductor or manually specify url as 
     const onSignal: OnSignal = (callback: (params: any) => void) => {
       // go down to the underlying websocket connection (.socket)
       // for a simpler API
-      ws.socket.on('message', (message: any) => {
-        if (!message) return
-        const msg = JSON.parse(message)
-        if (msg.signal || msg.instance_stats) {
-          callback(msg)
-        }
-      })
+      const runCallback = () => {
+        ws.socket.on('message', (message: any) => {
+          if (!message) return
+          const msg = JSON.parse(message)
+          if (msg.signal || msg.instance_stats) {
+            callback(msg)
+          }
+        })
+      }
+      // for the sake of re-establishing callbacks
+      ws.on('open', runCallbacks)
+      runCallbacks()
     }
     // define a function which will close the websocket connection
     const close = () => ws.close()
