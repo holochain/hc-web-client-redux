@@ -53,9 +53,10 @@ Ensure the web UI is hosted by a Holochain Conductor or manually specify url as 
       return callWhenConnected(ws, 'call', callObject, timeout)
     }
     const onSignal: OnSignal = (callback: (params: any) => void) => {
-      // go down to the underlying websocket connection (.socket)
-      // for a simpler API
-      const runCallback = () => {
+
+      const runCallbacks = () => {
+        // go down to the underlying websocket connection (.socket)
+        // for a simpler API
         ws.socket.on('message', (message: any) => {
           if (!message) return
           const msg = JSON.parse(message)
